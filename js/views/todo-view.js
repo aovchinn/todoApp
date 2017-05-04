@@ -52,7 +52,12 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
             this.$el.toggleClass('completed', this.model.get('completed'));
-			this.$el.toggleClass('priority', this.model.get('prioritized'));
+            if (this.model.get('priority')) {
+                this.$el.removeClass('priority l1 l2 l3')
+                .addClass('priority l' + this.model.get('priority'));
+            }else {
+                this.$el.removeClass('priority l1 l2 l3');
+            }
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
@@ -64,20 +69,17 @@ var app = app || {};
 
 		isHidden: function () {
             var completed = this.model.get('completed'),
-                prioritized = this.model.get('prioritized');
+                priority = this.model.get('priority');
 
             if (app.TodoFilter === 'active') {
                 return completed;
             } else if (app.TodoFilter === 'completed') {
                 return !completed;
             } else if (app.TodoFilter === 'prioritized') {
-                return !prioritized;
+                return !(priority > 0);
             } else {
                 return false;
             }
-            // return this.model.get('completed') ? // elements
-			// 	app.TodoFilter === 'active' :   //will be true with active filter
-			// 	app.TodoFilter === 'completed';
 		},
 
 		// Toggle the `"completed"` state of the model.
@@ -86,8 +88,9 @@ var app = app || {};
 		},
 
         // Toggle the `"prioritized"` state of the model.
-        togglePriority: function () {
-			this.model.togglePriority();
+        togglePriority: function (e) {
+            var level = parseInt(e.target.id[1]); //TODO think about view for buttons,
+			this.model.togglePriority(level);    // or a way to get priority level differently
 		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.

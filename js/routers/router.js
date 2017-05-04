@@ -17,7 +17,7 @@ var app = app || {};
 
 			// Trigger a collection filter event, causing hiding/unhiding
 			// of Todo view items
-			app.todos.trigger('filter'); //TODO?? how do filter activates in todos??
+			app.todos.trigger('filter');
 		}
 	});
 

@@ -22,7 +22,6 @@ var app = app || {};
 			'keypress #new-todo': 'createOnEnter',
 			'click #clear-completed': 'clearCompleted',
 			'click #toggle-all': 'toggleAllComplete',
-            'click .main-input .priority-btn': 'toggleMainPriority',
 		},
 
 		// At initialization we bind to the relevant events on the `Todos`
@@ -103,7 +102,7 @@ var app = app || {};
 				title: this.$input.val().trim(),
 				order: app.todos.nextOrder(),
 				completed: false,
-                prioritized: this.$mainInput.hasClass('priority'),
+                priority: 0, //TODO think about levels in main input field
 			};
 		},
 
@@ -116,10 +115,9 @@ var app = app || {};
 			}
 		},
 
-        toggleMainPriority: function () {
-            console.log('here');
-            this.$mainInput.toggleClass('priority');
-        },
+        // toggleMainPriority: function () {
+        //     this.$mainInput.toggleClass('priority');
+        // },
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function () {
