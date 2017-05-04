@@ -136,7 +136,7 @@ input[type="checkbox"] {
 }
 
 #new-todo {
-	padding: 16px 16px 16px 60px;
+	padding: 16px 16px 16px 78px;
 	border: none;
 	background: rgba(0, 0, 0, 0.02);
 	z-index: 2;
@@ -271,18 +271,27 @@ header .main-input .priority-btn{
     left: 35px;
 }
 
-#todo-list li #l1.priority-btn  {
+ #l1.priority-btn  {
     left: 10px;
+}
+
+ #l1.priority-btn:hover::after{
     color: #00EB58;
 }
 
-#todo-list li #l2.priority-btn  {
+ #l2.priority-btn  {
     left: 20px;
+}
+
+#l2.priority-btn:hover::after{
     color: #FFD718;
 }
 
-#todo-list li #l3.priority-btn  {
+#l3.priority-btn  {
     left: 30px;
+}
+
+#l3.priority-btn:hover::after{
     color: #dd6666;
 }
 
@@ -326,32 +335,24 @@ header .main-input .priority-btn{
 	text-decoration: line-through;
 }
 
-#todo-list li.priority.l3:not(.completed) label {
+#todo-list li.priority.l3:not(.completed) label, .main-input.l3 ::placeholder {
 	color: #d66;
 }
 
-#todo-list li.priority.l2:not(.completed) label {
+#todo-list li.priority.l2:not(.completed) label, .main-input.l2 ::placeholder {
 	color: #FFD718;
 }
 
-#todo-list li.priority.l1:not(.completed) label {
+#todo-list li.priority.l1:not(.completed) label, .main-input.l1 ::placeholder {
 	color: #00EB58;
 }
 
-#todo-list li.priority .priority-btn:after {
+.priority-btn:after {
 	color: #9e8f8f;
 }
 
-#todo-list li.priority .priority-btn:hover:after {
-	color: inherit;
-}
-
 .main-input.priority .priority-btn:after {
-	color: #d66;
-}
-
-.main-input.priority input, .main-input.priority ::placeholder  {
-	color: #d66;
+	color: inherit;
 }
 
 #todo-list li .destroy,

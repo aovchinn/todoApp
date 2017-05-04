@@ -21,7 +21,8 @@ var app = app || {};
 		events: {
 			'keypress #new-todo': 'createOnEnter',
 			'click #clear-completed': 'clearCompleted',
-			'click #toggle-all': 'toggleAllComplete',
+            'click #toggle-all': 'toggleAllComplete',
+            'click .priority-btn': 'toggleMainPriority',
 		},
 
 		// At initialization we bind to the relevant events on the `Todos`
@@ -31,7 +32,7 @@ var app = app || {};
 			this.allCheckbox = this.$('#toggle-all')[0];
 			this.$input = this.$('#new-todo');
             this.$mainInput = this.$('.main-input');
-            this.$priorityBtn = this.$('.main-input .priority-btn');
+            // this.$priorityBtn = this.$('.main-input .priority-btn');
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 			this.$list = $('#todo-list');
@@ -98,11 +99,15 @@ var app = app || {};
 
 		// Generate the attributes for a new Todo item.
 		newAttributes: function () {
+            var level = 0;
+            if (this.$mainInput.hasClass('priority')) {
+                level = this.$mainInput.attr('class').match(/l\d/)[0][1];
+            }
 			return {
 				title: this.$input.val().trim(),
 				order: app.todos.nextOrder(),
 				completed: false,
-                priority: 0, //TODO think about levels in main input field
+                priority: level,
 			};
 		},
 
@@ -115,9 +120,15 @@ var app = app || {};
 			}
 		},
 
-        // toggleMainPriority: function () {
-        //     this.$mainInput.toggleClass('priority');
-        // },
+        toggleMainPriority: function (e) {
+            var level = parseInt(e.target.id[1]);
+            if (this.$mainInput.hasClass('l' + level)) {
+                    this.$mainInput.removeClass('priority l1 l2 l3');
+            } else {
+                this.$mainInput.removeClass('priority l1 l2 l3')
+                .addClass('priority l' +  level);
+            }
+        },
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function () {
