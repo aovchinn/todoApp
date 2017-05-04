@@ -21,7 +21,8 @@ var app = app || {};
 		events: {
 			'keypress #new-todo': 'createOnEnter',
 			'click #clear-completed': 'clearCompleted',
-			'click #toggle-all': 'toggleAllComplete'
+			'click #toggle-all': 'toggleAllComplete',
+            'click .main-input .priority-btn': 'toggleMainPriority',
 		},
 
 		// At initialization we bind to the relevant events on the `Todos`
@@ -30,6 +31,8 @@ var app = app || {};
 		initialize: function () {
 			this.allCheckbox = this.$('#toggle-all')[0];
 			this.$input = this.$('#new-todo');
+            this.$mainInput = this.$('.main-input');
+            this.$priorityBtn = this.$('.main-input .priority-btn');
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 			this.$list = $('#todo-list');
@@ -38,7 +41,7 @@ var app = app || {};
 			this.listenTo(app.todos, 'reset', this.addAll);
 			this.listenTo(app.todos, 'change:completed', this.filterOne);
 			this.listenTo(app.todos, 'filter', this.filterAll);
-			this.listenTo(app.todos, 'all', this.render);
+            this.listenTo(app.todos, 'all', this.render);
 
 			// Suppresses 'add' events with {reset: true} and prevents the app view
 			// from being re-rendered for every model. Only renders when the 'reset'
@@ -99,7 +102,8 @@ var app = app || {};
 			return {
 				title: this.$input.val().trim(),
 				order: app.todos.nextOrder(),
-				completed: false
+				completed: false,
+                prioritized: this.$mainInput.hasClass('priority'),
 			};
 		},
 
@@ -111,6 +115,11 @@ var app = app || {};
 				this.$input.val('');
 			}
 		},
+
+        toggleMainPriority: function () {
+            console.log('here');
+            this.$mainInput.toggleClass('priority');
+        },
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function () {

@@ -17,8 +17,10 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'click .toggle': 'toggleCompleted',
+            'click .toggle': 'toggleCompleted',
+			'click .priority-btn': 'togglePriority',
 			'dblclick label': 'edit',
+            'click .edit-btn': 'edit',
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
 			'keydown .edit': 'revertOnEscape',
@@ -49,7 +51,8 @@ var app = app || {};
 			}
 
 			this.$el.html(this.template(this.model.toJSON()));
-			this.$el.toggleClass('completed', this.model.get('completed'));
+            this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$el.toggleClass('priority', this.model.get('prioritized'));
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
@@ -60,14 +63,31 @@ var app = app || {};
 		},
 
 		isHidden: function () {
-			return this.model.get('completed') ?
-				app.TodoFilter === 'active' :
-				app.TodoFilter === 'completed';
+            var completed = this.model.get('completed'),
+                prioritized = this.model.get('prioritized');
+
+            if (app.TodoFilter === 'active') {
+                return completed;
+            } else if (app.TodoFilter === 'completed') {
+                return !completed;
+            } else if (app.TodoFilter === 'prioritized') {
+                return !prioritized;
+            } else {
+                return false;
+            }
+            // return this.model.get('completed') ? // elements
+			// 	app.TodoFilter === 'active' :   //will be true with active filter
+			// 	app.TodoFilter === 'completed';
 		},
 
 		// Toggle the `"completed"` state of the model.
 		toggleCompleted: function () {
 			this.model.toggle();
+		},
+
+        // Toggle the `"prioritized"` state of the model.
+        togglePriority: function () {
+			this.model.togglePriority();
 		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.
